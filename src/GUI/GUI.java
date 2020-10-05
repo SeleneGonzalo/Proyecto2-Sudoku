@@ -54,16 +54,18 @@ public class GUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 719, 497);
+		panel.setBounds(0, 57, 719, 440);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(9, 9, 0, 0));
 	
-		for (int i = 0; i <juego.getCantFilas(); i++) {
-			for(int j =0; j<juego.getCantFilas(); j++) {
-				Casillas c = juego.getCelda(i,j);
-				ImageIcon grafico = c.getEntidadGrafica().getGrafico();
+		for (int i = 0; i <juego.get_cantidad_filas(); i++) {
+			for(int j =0; j<juego.get_cantidad_filas(); j++) {
+				Casillas c = juego.get_casilla(i,j);
+				ImageIcon grafico = c.getEntidadGrafica().getIcono();
 				JLabel label = c.getEntidadGrafica().getLabel();
 				panel.add(label);
+				
+				
 				label.addComponentListener(new ComponentAdapter() {
 					@Override
 					public void componentResized(ComponentEvent e) {
@@ -75,7 +77,7 @@ public class GUI extends JFrame {
 				label.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						juego.accionar(c);
+						juego.presionar(c);
 						resize(label,grafico);
 					}
 				});
