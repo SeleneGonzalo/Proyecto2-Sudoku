@@ -16,7 +16,7 @@ public class Casilla {
 	}
 	
 	public void actualizar() {
-		if (valor != null && valor < this.getCantElementos())
+		if (valor != 0 && valor < this.getCantElementos())
 			valor++;
 		else {
 			valor = 1;
@@ -35,12 +35,11 @@ public class Casilla {
 	}
 	
 	public void setValor(Integer valor) {
-		if (valor!=null && valor <= this.getCantElementos()) {
+		if (valor != 0 && valor <= this.getCantElementos()) {
 			this.valor = valor;
 			grafico.actualizar(this.valor,true);
-		}else {
+		}else 
 			this.valor = 1;
-		}
 	}
 	
 	public Graficos getEntidadGrafica() {

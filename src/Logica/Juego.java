@@ -38,7 +38,7 @@ public class Juego {
 					int valor = (Integer.parseInt(arreglo[j]));
 					if (!se_repiten_elementos_inicio (tablero_auxiliar,i,j,valor)) {
 						tablero_auxiliar[i][j] = valor;
-						if (establecer_valor() && (i != 7 && j != 7)) {
+						if (establecer_valor()) {
 							tablero[i][j].setValor(valor);
 							tablero[i][j].getEntidadGrafica().getLabel().setEnabled(false);
 						} else
@@ -114,8 +114,8 @@ public class Juego {
 	private boolean establecer_valor () {
 		boolean establecer=false;
 		Random rand = new Random();
-		int valor = rand.nextInt(9);
-		if (valor < 9) 
+		int valor = rand.nextInt(2);
+		if (valor == 0) 
 			establecer=true;
 		return establecer;
 	}
