@@ -37,7 +37,7 @@ public class Juego {
  		String []arreglo;
  		int tablero_auxiliar[][] = new int [9][9];
 		try {
-			FileReader f = new FileReader(System.getProperty("user.dir")+"\\archivo.txt");
+			FileReader f = new FileReader(System.getProperty("user.dir")+"\\src\\archivo.txt");
 			BufferedReader b = new BufferedReader(f);
 			for (int i=0; i<9; i++) {
 				arreglo = b.readLine().split(" ");
