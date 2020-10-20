@@ -103,7 +103,7 @@ public class GUI extends JFrame {
 		}
 	}
 	
-	private void temporizador (int time) {
+	public void temporizador (int time) {
 		Timer timer = new Timer();
 		TimerTask tk = new TimerTask() {
 			public void run() {
@@ -115,6 +115,9 @@ public class GUI extends JFrame {
 				lb_2.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_min/10+" reloj.png")));
 				lb_1.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_max%10+" reloj.png")));
 				lb.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_max/10+" reloj.png")));
+				
+				if (juego.getGano()) 
+					cancel();
 			}
 		};
 		timer.schedule(tk,time,time);

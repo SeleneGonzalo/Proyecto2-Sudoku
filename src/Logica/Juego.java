@@ -8,15 +8,20 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
+import GUI.GUI;
+
 public class Juego {
 	private Casilla [][] tablero;
 	private LinkedList<Casilla> lista_control;
 	private int filas;
+	private boolean gano;
 	
 	public Juego(){		
 		this.filas = 9;
 		tablero = new Casilla[filas][filas];
 		lista_control = new LinkedList<Casilla>();
+		gano=false; 
+		
 		for (int i =0; i<filas; i++) {
 			for (int j =0; j<filas; j++)
 				tablero[i][j] = new Casilla(i,j,this);
@@ -132,6 +137,7 @@ public class Juego {
 			
 		if (lista_control.isEmpty()) {
 			tablero[fila][columna].getGrafico().actualizar(tablero[fila][columna].getValor(),false);
+			setGano(true);
 			JOptionPane.showMessageDialog(null, "Sudoku resuelto de forma correcta");
 			System.exit(0);
 		}
@@ -156,7 +162,13 @@ public class Juego {
 		return establecer;
 	}
 	
-
+	public boolean getGano () {
+		return gano;
+	}
+	
+	public void setGano (boolean gano) {
+		this.gano = gano;
+	}
 	public void presionar(Casilla c) {
 		c.actualizar();
 	}
