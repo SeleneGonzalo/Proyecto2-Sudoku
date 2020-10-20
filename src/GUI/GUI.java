@@ -81,24 +81,22 @@ public class GUI extends JFrame {
 		for (int i = 0; i <juego.get_cantidad_filas(); i++) {
 			for(int j =0; j<juego.get_cantidad_filas(); j++) {
 				Casilla c = juego.get_casilla(i,j);
-				ImageIcon grafico = c.getEntidadGrafica().getIcono();
-				JLabel label = c.getEntidadGrafica().getLabel();
+				ImageIcon grafico = c.getGrafico().getIcono();
+				JLabel label = c.getGrafico().getLabel();
 				panel.add(label);
 				
 				
 				label.addComponentListener(new ComponentAdapter() {
 					@Override
 					public void componentResized(ComponentEvent e) {
-						resize(label, grafico);
 						label.setIcon(grafico);
 					}
 				});
-				
+
 				label.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						juego.presionar(c);
-						resize(label,grafico);
 					}
 				});
 			}
@@ -117,17 +115,8 @@ public class GUI extends JFrame {
 				lb_2.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_min/10+" reloj.png")));
 				lb_1.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_max%10+" reloj.png")));
 				lb.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_max/10+" reloj.png")));
-				
 			}
 		};
 		timer.schedule(tk,time,time);
-	}
-	
-	private void resize(JLabel label, ImageIcon grafico) {
-		Image image = grafico.getImage();
-		if (image != null) {  
-			grafico.setImage(image);
-			label.repaint();
-		}
 	}
 }

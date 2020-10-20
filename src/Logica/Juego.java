@@ -23,36 +23,68 @@ public class Juego {
 		}
 		try {
 			inicializar_tablero ();
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "No se pudo inicializar el tablero");
+		}
 	}
 	
 	private void inicializar_tablero () throws FileNotFoundException {
  		String []arreglo;
  		int tablero_auxiliar[][] = new int [9][9];
 		try {
-			FileReader f = new FileReader("C:\\Users\\Selene\\eclipse-workspace\\Sudoku\\src\\archivo.txt");
+			FileReader f = new FileReader(System.getProperty("user.dir")+"\\archivo.txt");
 			BufferedReader b = new BufferedReader(f);
 			for (int i=0; i<9; i++) {
 				arreglo = b.readLine().split(" ");
-				for (int j=0; j<9; j++) {
-					int valor = (Integer.parseInt(arreglo[j]));
-					if (!se_repiten_elementos_inicio (tablero_auxiliar,i,j,valor)) {
-						tablero_auxiliar[i][j] = valor;
-						if (establecer_valor()) {
-							tablero[i][j].setValor(valor);
-							tablero[i][j].getEntidadGrafica().getLabel().setEnabled(false);
-						} else
-							lista_control.add(tablero[i][j]);
-					} else {
-						JOptionPane.showMessageDialog(null, "Los elementos del archivo cargado incumplen las reglas del juego");
-						System.exit(0);
+				if (cumple_formato_archivo (arreglo)) {
+					for (int j=0; j<9; j++) {
+						int valor = (Integer.parseInt(arreglo[j]));
+						if (!se_repiten_elementos_inicio (tablero_auxiliar,i,j,valor)) {
+							tablero_auxiliar[i][j] = valor;
+							if (establecer_valor()) {
+								tablero[i][j].setValor(valor);
+								tablero[i][j].getGrafico().getLabel().setEnabled(false);
+							} else 
+								lista_control.add(tablero[i][j]);
+						} else {
+							JOptionPane.showMessageDialog(null, "Los elementos del archivo incumplen con las reglas del juego");
+							System.exit(0);
+						}
 					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Los elementos del archivo cargado no cumplen con el formato necesario");
+					System.exit(0);
+							
 				}
 			}
 			b.close();
-	    } catch (IOException e) {}
+	    } catch (IOException e) {
+	    	JOptionPane.showMessageDialog(null, "El archivo no pudo ser leido");
+	    	System.exit(0);
+	    }
 	}
 	
+	private boolean cumple_formato_archivo (String arreglo []) {
+		boolean cumple = true;
+		if (arreglo.length == 9) {
+			for (int i=0; i < 9 && cumple; i++)
+				cumple = isInteger(arreglo[i]);
+		} else
+			cumple=false;
+		return cumple;
+	}
+	
+	private boolean isInteger (String s) {
+		boolean toReturn=false;
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "El archivo no tiene un formato válido");
+			System.exit(0);
+		}
+		toReturn = true;
+		return toReturn;
+	}
 	private boolean se_repiten_elementos_inicio (int matriz[][], int fila, int columna, int valor) {
 		boolean se_repite = false;
 		int valor_fila = (fila/3)*3;
@@ -94,28 +126,32 @@ public class Juego {
 			} 
 		}
 		
-		if(fila == 7 && columna == 7) {
-			for (int i = 0; i<lista_control.size();i++)
-				System.out.println(lista_control.get(i).getValor());
-		}
-		
 		lista_control.remove(tablero[fila][columna]);
 		if (se_repite)
 			lista_control.add(tablero[fila][columna]);
-		
-		
-		
+			
 		if (lista_control.isEmpty()) {
+			tablero[fila][columna].getGrafico().actualizar(tablero[fila][columna].getValor(),false);
 			JOptionPane.showMessageDialog(null, "Sudoku resuelto de forma correcta");
 			System.exit(0);
 		}
 		return se_repite;
 	}
+	
+	public void controlar_errores() {
+		Casilla c;
+		for (int i =0; i< lista_control.size(); i++) {
+			c = lista_control.get(i);
+			if(c.getValor()!=0)
+				c.estaRepetido(se_repiten_elementos(c.getFila(),c.getColumna(),c.getValor()));
+		}
+		
+	}
 	private boolean establecer_valor () {
 		boolean establecer=false;
 		Random rand = new Random();
-		int valor = rand.nextInt(2);
-		if (valor == 0) 
+		int valor = rand.nextInt(100);
+		if (valor < 90)
 			establecer=true;
 		return establecer;
 	}

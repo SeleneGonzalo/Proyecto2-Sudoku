@@ -21,9 +21,9 @@ public class Casilla {
 		else {
 			valor = 1;
 		}
-		boolean cumple = !juego.se_repiten_elementos(fila, columna, valor);
-		grafico.actualizar(valor,cumple);
-		
+		boolean se_repite_elemento = juego.se_repiten_elementos(fila, columna, valor);
+		grafico.actualizar(valor,se_repite_elemento);
+		juego.controlar_errores();
 	}
 	
 	public int getCantElementos() {
@@ -38,14 +38,22 @@ public class Casilla {
 		if (valor != 0 && valor <= this.getCantElementos()) {
 			this.valor = valor;
 			grafico.actualizar(this.valor,true);
-		}else 
+		} else 
 			this.valor = 1;
 	}
 	
-	public Graficos getEntidadGrafica() {
+	public int getFila () {
+		return fila;
+	}
+	public int getColumna() {
+		return columna;
+	}
+	public Graficos getGrafico() {
 		return grafico;
 	}
-	
+	public void estaRepetido(boolean repetido) {
+		grafico.actualizar(valor, repetido);
+	}
 	public void setGrafica(Graficos gra) {
 		grafico = gra;
 	}
