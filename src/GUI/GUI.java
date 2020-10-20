@@ -2,7 +2,6 @@ package GUI;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -21,6 +20,10 @@ import Logica.Juego;
 
 public class GUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Juego juego;
 	int tiempo;

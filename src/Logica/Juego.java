@@ -8,8 +8,6 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-import GUI.GUI;
-
 public class Juego {
 	private Casilla [][] tablero;
 	private LinkedList<Casilla> lista_control;
