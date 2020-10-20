@@ -156,8 +156,8 @@ public class Juego {
 	private boolean establecer_valor () {
 		boolean establecer=false;
 		Random rand = new Random();
-		int valor = rand.nextInt(100);
-		if (valor < 90)
+		int valor = rand.nextInt(2);
+		if (valor == 0)
 			establecer=true;
 		return establecer;
 	}
