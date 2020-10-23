@@ -30,12 +30,14 @@ public class CasillaGrafica {
 		return imagenes.length;
 	}
 	public void actualizar(int valor, boolean se_repite) {
-		if (se_repite) { 
-			this.grafico.setImage(new ImageIcon(this.getClass().getResource(this.imagenes_error[valor-1])).getImage());
-		} else
-			this.grafico.setImage(new ImageIcon (this.getClass().getResource(this.imagenes[valor-1])).getImage());
-
-		label.repaint();
+		if (valor != 0) {
+			if (se_repite) { 
+				this.grafico.setImage(new ImageIcon(this.getClass().getResource(this.imagenes_error[valor-1])).getImage());
+			} else
+				this.grafico.setImage(new ImageIcon (this.getClass().getResource(this.imagenes[valor-1])).getImage());
+	
+			label.repaint();
+		}
 	}
 	public JLabel getLabel () {
 		return label;

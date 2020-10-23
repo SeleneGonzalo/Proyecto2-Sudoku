@@ -4,26 +4,27 @@ public class Casilla {
 	private CasillaGrafica grafico;
 	private int fila,columna;
 	private Juego juego;
+	private boolean error;
 	
 	public Casilla(int fila,int columna, Juego juego) {
+		error=false;
 		this.valor = 0;
 		this.grafico = new CasillaGrafica();
 		this.fila = fila;
 		this.columna = columna;
 		this.juego = juego;
 	}
-
+	public void setEstado (boolean error) {
+		this.error = error;
+	}
+	
 	public void actualizar() {
-        boolean se_repite_elemento;
         if (valor != 0 && valor < grafico.getCantidadElementos())
             valor++;
         else 
         	 valor = 1;
-
-        se_repite_elemento = !(juego.se_repiten_elementos(fila, columna, valor)).isEmpty();
-        juego.controlar_errores(fila, columna, valor);
-        grafico.actualizar(valor,se_repite_elemento);
-        juego.controlar_lista();
+        juego.se_repiten_elementos(fila, columna, valor);
+        grafico.actualizar(valor, error);
     }
 	
 	public Integer getValor() {
@@ -37,7 +38,7 @@ public class Casilla {
 		} else 
 			this.valor = 1;
 	}
-	
+
 	public int getFila () {
 		return fila;
 	}
@@ -47,9 +48,7 @@ public class Casilla {
 	public CasillaGrafica getGrafico() {
 		return grafico;
 	}
-	public void estaRepetido(boolean repetido) {
-		grafico.actualizar(valor, repetido);
-	}
+
 	public void setGrafica(CasillaGrafica gra) {
 		grafico = gra;
 	}

@@ -114,34 +114,44 @@ public class Juego {
 		return se_repite;
 	}
 	
-	public LinkedList<Casilla> se_repiten_elementos (int fila, int columna, int valor) {
-		LinkedList<Casilla> lista_repetidos = new LinkedList<Casilla>();
+	public boolean se_repiten_elementos (int fila, int columna, int valor) {
+		boolean se_repite = false, toReturn = false;
 		int valor_fila = ((int) (fila / 3)) *3;
 		int valor_columna = ((int) (columna / 3)) * 3;
+		
 		for (int i=0; i<filas; i++) {
 			if (tablero[i][columna].getValor() != null)
-				if (tablero[i][columna].getValor() == valor && i != fila)
-					lista_repetidos.add(tablero[i][columna]);
+				se_repite = (tablero[i][columna].getValor() == valor && i != fila);
+			if (se_repite) {
+				toReturn = true;
+				tablero[i][columna].setEstado(true);
+			}
 		}
 		
 		for (int j=0; j<columnas; j++) {
 			if (tablero[fila][j].getValor() != null)
-				if (tablero[fila][j].getValor() == valor && j != columna)
-					lista_repetidos.add(tablero[fila][j]);
+				se_repite = (tablero[fila][j].getValor() == valor && j != columna);
+			if (se_repite) {
+				toReturn = true;
+				tablero[fila][j].setEstado(true);
+			} 
 		}
 	
 		for (int i=valor_fila; i < (valor_fila + 3); i++) {
 			for (int j=valor_columna; j < (valor_columna + 3); j++) {
 				if (tablero[i][j].getValor() != null)
-					if (tablero[i][j].getValor() == valor && i!= fila && j != columna)
-						lista_repetidos.add(tablero[i][j]);
+					se_repite = (tablero[i][j].getValor() == valor && i!= fila && j != columna);
+				if (se_repite) {
+					toReturn = true;
+					tablero[i][j].setEstado(true);
+				}
 			} 
 		}
-		
-		return lista_repetidos;
+		tablero[fila][columna].setEstado(toReturn);
+		return toReturn;
 	}
 	
-	public void controlar_lista() {
+	/*public void controlar_lista() {
 		LinkedList<Casilla> lista_auxiliar = new LinkedList<Casilla>();
 		LinkedList<Casilla> lista_con_errores= new LinkedList<Casilla>();
 		boolean repetido=false;
@@ -149,7 +159,7 @@ public class Juego {
 		for (int i=0; i<lista_control.size(); i++) {
 			c = lista_control.get(i);
 			repetido = !(se_repiten_elementos(c.getFila(), c.getColumna(), c.getValor()).isEmpty());
-			if ((repetido || c.getValor() == 0) && !lista_auxiliar.contains(c))
+			if (repetido || c.getValor() == 0) && !lista_auxiliar.contains(c)
 				lista_auxiliar.add(c);
 			
 			if (c.getValor() != 0)
@@ -157,6 +167,7 @@ public class Juego {
 		}
 		if (!(lista_control.isEmpty()))
 				aux = lista_control.getLast();
+		
 		lista_con_errores = (se_repiten_elementos(aux.getFila(), aux.getColumna(), aux.getValor()));
 		for (int e =0; e < lista_con_errores.size(); e++) {
 			lista_auxiliar.add(lista_con_errores.get(e));
@@ -164,6 +175,7 @@ public class Juego {
 				lista_con_errores.get(e).estaRepetido(true);
 		}
 		lista_control = lista_auxiliar;
+		
 		if (lista_control.isEmpty()) {
 			c.getGrafico().actualizar(c.getValor(),false);
 			gano = true;
@@ -171,6 +183,7 @@ public class Juego {
 			System.exit(0);
 		}
 	}
+	
 	public boolean controlar_errores(int fila, int columna, int valor) {
 		boolean repetido = false;
 		if(valor!=0) {
@@ -178,17 +191,17 @@ public class Juego {
 				if(!repetido)
 					lista_control.remove(tablero[fila][columna]);
 				
-				if((repetido || tablero[fila][columna].getValor()==0))
+				if(repetido || tablero[fila][columna].getValor()==0)
 					lista_control.add(tablero[fila][columna]);	
 		}
 		return repetido;
-	}
+	}*/
 	
 	private boolean establecer_valor () {
 		boolean establecer=false;
 		Random rand = new Random();
 		int valor = rand.nextInt(3);
-		if (valor < 2)
+		if (valor < 0)
 			establecer=true;
 		return establecer;
 	}
