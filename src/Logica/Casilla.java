@@ -12,18 +12,19 @@ public class Casilla {
 		this.columna = columna;
 		this.juego = juego;
 	}
-	
+
 	public void actualizar() {
-		boolean se_repite_elemento;
-		if (valor != 0 && valor < grafico.getCantidadElementos())
-			valor++;
-		else 
-			valor = 1;
-		
-		se_repite_elemento = juego.se_repiten_elementos(fila, columna, valor);
-		grafico.actualizar(valor,se_repite_elemento);
-		juego.controlar_errores();
-	}
+        boolean se_repite_elemento;
+        if (valor != 0 && valor < grafico.getCantidadElementos())
+            valor++;
+        else 
+        	 valor = 1;
+
+        se_repite_elemento = !(juego.se_repiten_elementos(fila, columna, valor)).isEmpty();
+        juego.controlar_errores(fila, columna, valor);
+        grafico.actualizar(valor,se_repite_elemento);
+        juego.controlar_lista();
+    }
 	
 	public Integer getValor() {
 		return valor;
