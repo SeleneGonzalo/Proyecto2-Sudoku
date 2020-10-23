@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
@@ -8,15 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import Logica.Casilla;
 import Logica.Juego;
-
 
 public class GUI extends JFrame {
 
@@ -39,7 +41,7 @@ public class GUI extends JFrame {
 					GUI frame = new GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No se pudo iniciar el juego");
 				}
 			}
 		});
@@ -47,7 +49,9 @@ public class GUI extends JFrame {
 
 	@SuppressWarnings("unused")
 	public GUI() {
-		juego = new Juego();
+		JOptionPane.showMessageDialog(null, "Los objetos disponibles para completar el tablero son los numeros del 1 al 9.\n Al clickear cada casilla se va incrementando el valor desde el 1 hasta el 9, y luego vuelve a comenzar \n ¡Suerte!");
+		setResizable(false);
+		juego = new Juego("Solucion/archivo.txt");
 		temporizador(1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 687, 536);
@@ -82,12 +86,20 @@ public class GUI extends JFrame {
 		lb_3.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/0 reloj.png")));
 		
 		for (int i = 0; i <juego.get_cantidad_filas(); i++) {
-			for(int j =0; j<juego.get_cantidad_filas(); j++) {
+			for(int j =0; j<juego.get_cantidad_columnas(); j++) {
 				Casilla c = juego.get_casilla(i,j);
 				ImageIcon grafico = c.getGrafico().getIcono();
 				JLabel label = c.getGrafico().getLabel();
-				panel.add(label);
+				if (j%3 == 0 && i%3 == 0)
+					label.setBorder(BorderFactory.createMatteBorder(5,5, 1, 1, Color.DARK_GRAY));
+				else if (i%3==0)
+					label.setBorder(BorderFactory.createMatteBorder(5,1, 1, 1, Color.DARK_GRAY));
+				else if (j%3==0)
+					label.setBorder(BorderFactory.createMatteBorder(1,5, 1, 1, Color.DARK_GRAY));
+				else
+					label.setBorder(BorderFactory.createMatteBorder(1,1, 1, 1, Color.DARK_GRAY));
 				
+				panel.add(label);
 				
 				label.addComponentListener(new ComponentAdapter() {
 					@Override
