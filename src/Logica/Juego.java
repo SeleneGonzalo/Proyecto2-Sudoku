@@ -135,8 +135,6 @@ public class Juego {
 			} 
 		}
 		
-		if (!se_repite)
-			lista_control.remove(tablero[fila][columna]);
 		return se_repite;
 	}
 	
