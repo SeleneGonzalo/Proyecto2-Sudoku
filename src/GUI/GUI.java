@@ -49,9 +49,13 @@ public class GUI extends JFrame {
 
 	@SuppressWarnings("unused")
 	public GUI() {
+		juego = new Juego("Solucion/archivo.txt");
+		if (!juego.se_inicio()) {
+			JOptionPane.showMessageDialog(null, "El juego no pudo ser iniciado");
+			System.exit(0);
+		}
 		JOptionPane.showMessageDialog(null, "Los objetos disponibles para completar el tablero son los numeros del 1 al 9.\n Al clickear cada casilla se va incrementando el valor desde el 1 hasta el 9, y luego vuelve a comenzar \n ¡Suerte!");
 		setResizable(false);
-		juego = new Juego("Solucion/archivo.txt");
 		temporizador(1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 687, 536);
@@ -112,12 +116,16 @@ public class GUI extends JFrame {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						juego.presionar(c);
+						if (juego.getGano()) {
+							JOptionPane.showMessageDialog(null, "Sudoku resulta de forma correcta");
+							System.exit(0);
+						}
 					}
 				});
 			}
 		}
 	}
-	
+
 	public void temporizador (int time) {
 		Timer timer = new Timer();
 		TimerTask tk = new TimerTask() {
@@ -131,8 +139,9 @@ public class GUI extends JFrame {
 				lb_1.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_max%10+" reloj.png")));
 				lb.setIcon(new ImageIcon(this.getClass().getResource("/Imagenes/"+unidad_max/10+" reloj.png")));
 				
-				if (juego.getGano()) 
+				if (juego.getGano()) {
 					cancel();
+				}
 			}
 		};
 		timer.schedule(tk,time,time);

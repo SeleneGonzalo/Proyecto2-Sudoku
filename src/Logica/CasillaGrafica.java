@@ -26,6 +26,9 @@ public class CasillaGrafica {
 		return this.grafico;
 	}
 	
+	public void Deshabilitar () {
+		label.setEnabled(false);
+	}
 	public int getCantidadElementos() {
 		return imagenes.length;
 	}
