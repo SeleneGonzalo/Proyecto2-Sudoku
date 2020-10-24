@@ -15,7 +15,7 @@ public class Juego {
 	private boolean se_inicio_correcto;
 	
 	public Juego(String ruta){	
-		se_inicio_correcto = false;
+		se_inicio_correcto = true;
 		this.ruta = ruta;
 		this.filas = 9;
 		this.columnas = 9;
@@ -42,22 +42,24 @@ public class Juego {
 			bfr = new BufferedReader(inr);
 			for (int i=0; i<9; i++) {
 				arreglo = bfr.readLine().split(" ");
-				if (cumple_formato_archivo (arreglo)) {
+				if (cumple_formato_archivo (arreglo) && se_inicio_correcto) {
 					for (int j=0; j<9; j++) {
 						int valor = (Integer.parseInt(arreglo[j]));
-						if (!se_repiten_elementos_inicio (tablero_auxiliar,i,j,valor)) {
+						if (!chequear_formato_archivo (tablero_auxiliar,i,j,valor)) {
 							tablero_auxiliar[i][j] = valor;
 							if (establecer_valor()) {
 								tablero[i][j].setValor(valor);
 								tablero[i][j].setInicial(true);
 							} 
-						} 
+						} else
+							se_inicio_correcto = false;
 					}
-				}
+				}else
+					se_inicio_correcto = false;
 			}
 			bfr.close();
 	    } catch (IOException e) {}
-		se_inicio_correcto = true;
+		se_inicio_correcto = true && se_inicio_correcto;
 	}
 	public boolean se_inicio () {
 		return se_inicio_correcto;
@@ -74,13 +76,15 @@ public class Juego {
 	
 	private boolean isInteger (String s) {
 		boolean toReturn=false;
+		int numero;
 		try {
-			Integer.parseInt(s);
+			numero = Integer.parseInt(s);
+			if (numero >= 1 && numero <= 9)
+				toReturn = true;
 		} catch (NumberFormatException e) {}
-		toReturn = true;
 		return toReturn;
 	}
-	private boolean se_repiten_elementos_inicio (int matriz[][], int fila, int columna, int valor) {
+	private boolean chequear_formato_archivo (int matriz[][], int fila, int columna, int valor) {
 		boolean se_repite = false;
 		int valor_fila = (fila/3)*3;
 		int valor_columna = (columna/3)*3;
@@ -97,7 +101,6 @@ public class Juego {
 				se_repite = matriz[i][j] == valor && i!= fila && j != columna;
 			} 
 		}
-
 		return se_repite;
 	}
 	
@@ -122,32 +125,36 @@ public class Juego {
 		boolean se_repite = false, aux = false;
 		int valor_fila = ((int) (fila / 3)) *3;
 		int valor_columna = ((int) (columna / 3)) * 3;
+		Casilla c;
 		
 		for (int i=0; i<filas; i++) {
-			if (tablero[i][columna].getValor() != null)
-				se_repite = (tablero[i][columna].getValor() == valor && i != fila);
+			c = tablero[i][columna];
+			if (c.getValor() != null)
+				se_repite = (c.getValor() == valor && i != fila);
 			if (se_repite) {
 				aux = true;
-				tablero[i][columna].setEstado(true);
+				c.setEstado(true);
 			}
 		}
 		
 		for (int j=0; j<columnas; j++) {
-			if (tablero[fila][j].getValor() != null)
-				se_repite = (tablero[fila][j].getValor() == valor && j != columna);
+			c = tablero[fila][j];
+			if (c.getValor() != null)
+				se_repite = (c.getValor() == valor && j != columna);
 			if (se_repite) {
 				aux = true;
-				tablero[fila][j].setEstado(true);
+				c.setEstado(true);
 			} 
 		}
 	
 		for (int i=valor_fila; i < (valor_fila + 3); i++) {
 			for (int j=valor_columna; j < (valor_columna + 3); j++) {
-				if (tablero[i][j].getValor() != null)
-					se_repite = (tablero[i][j].getValor() == valor && i!= fila && j != columna);
+				c = tablero[i][j];
+				if (c.getValor() != null)
+					se_repite = (c.getValor() == valor && i!= fila && j != columna);
 				if (se_repite) {
 					aux = true;
-					tablero[i][j].setEstado(true);
+					c.setEstado(true);
 				}
 			} 
 		}

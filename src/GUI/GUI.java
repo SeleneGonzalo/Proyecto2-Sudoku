@@ -42,6 +42,7 @@ public class GUI extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "No se pudo iniciar el juego");
+					System.exit(0);
 				}
 			}
 		});
@@ -49,9 +50,10 @@ public class GUI extends JFrame {
 
 	@SuppressWarnings("unused")
 	public GUI() {
+		String error = null;
 		juego = new Juego("Solucion/archivo.txt");
 		if (!juego.se_inicio()) {
-			JOptionPane.showMessageDialog(null, "El juego no pudo ser iniciado");
+			JOptionPane.showMessageDialog(null, "No se pudo iniciar el juego");
 			System.exit(0);
 		}
 		JOptionPane.showMessageDialog(null, "Los objetos disponibles para completar el tablero son los numeros del 1 al 9.\n Al clickear cada casilla se va incrementando el valor desde el 1 hasta el 9, y luego vuelve a comenzar \n ¡Suerte!");
